@@ -1,0 +1,23 @@
+.product-container {
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    padding: 30px;
+    text-align: center;
+}
+  
+.product-container h2 {
+font-size: 24px;
+margin-bottom: 15px;
+color: #333;
+}
+
+.price {
+font-size: 18px;
+color: #ff6600;
+}
+
+.description {
+font-size: 16px;
+line-height: 1.5;
+}
