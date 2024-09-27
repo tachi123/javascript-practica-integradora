@@ -1,4 +1,5 @@
 import express from 'express';
+import methodOverride from "method-override";
 import handlebars from 'express-handlebars';
 import mongoose from "mongoose";
 
@@ -29,6 +30,8 @@ mongoose.connect(URIConexion)
     .catch((error) => console.error('Error en conexion:', error))
 ;
 
+//Para poder reescribir e interpretar el valor del campo _method de un formulario
+app.use(methodOverride('_method'));
 
 //Inicializar el motor indicando app.engine
 app.engine('handlebars', handlebars.engine());

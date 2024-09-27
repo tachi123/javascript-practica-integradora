@@ -1,5 +1,8 @@
 import express from 'express';
 import ProductModel from '../models/product.models.js';
+
+import {uploader} from '../utilsMulter.js'; //Importamos el uploader previamente configurado
+
 const router = express.Router();
 
 //creación de un producto
@@ -7,7 +10,7 @@ router.post('/', async (req, res )=> {
     try{
         const newProduct = new ProductModel(req.body);
         console.log('Info del body: ', req.body);
-
+        newProduct.thumbnail = req.file.path; //Agregamos la RUTA  de acceso a su respectivo archivo
         await newProduct.save();
 
         res.render('product', {product: newProduct.toObject()});   
@@ -36,5 +39,29 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+router.delete('/:id', async (req, res) => {
+    try{
+        const producto = await ProductModel.findByIdAndDelete(req.params.id);
+        if(!producto){
+            return res.render('error', {error: 'No se encontro el producto a eliminar'});
+        }
+        res.redirect('/product');
+    }catch (error){
+        return res.render('error', {error: 'Error al eliminar el producto'});
+    }
+})
+
+router.get('/', async (req, res) => {
+    try{
+        const products = await ProductModel.find();
+
+        //IF SI LA LISTA ESTA VACÍA
+
+        res.render('products', { products : products.map( product => product.toObject() )})
+    }catch (error){
+        return res.render('error', {error: 'Error al obtener todos los productos'});
+    }
+
+})
 
 export default router;
